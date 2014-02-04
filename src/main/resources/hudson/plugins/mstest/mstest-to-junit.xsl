@@ -53,6 +53,7 @@
                     <xsl:variable name="outcome" select="@outcome"/>
                     <xsl:variable name="message" select="b:Output/b:ErrorInfo/b:Message"/>
                     <xsl:variable name="stacktrace" select="b:Output/b:ErrorInfo/b:StackTrace"/>
+                    <xsl:variable name="stdout" select="b:Output/b:StdOut"/>
                     <xsl:for-each select="//b:UnitTest">
                         <xsl:variable name="currentTestId" select="@id"/>
                         <xsl:if test="$currentTestId = $testId" >
@@ -60,7 +61,9 @@
                             <testcase classname="{$className}"
                                 name="{$testName}"
                                 time="{$duration_hours*3600 + $duration_minutes*60 + $duration_seconds }">
-
+                                <system-out>
+                                    <xsl:value-of select="$stdout" />
+                                </system-out>
                                 <xsl:if test="contains($outcome, 'Failed')">
                                     <failure message="{$message}">
                                         <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
