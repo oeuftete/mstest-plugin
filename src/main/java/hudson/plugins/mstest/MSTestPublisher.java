@@ -32,7 +32,7 @@ import org.kohsuke.stapler.StaplerRequest;
 
 /**
  * Class that records MSTest test reports into Hudson.
- * 
+ *
  * @author Antonio Marques
  */
 public class MSTestPublisher extends Recorder implements Serializable {
@@ -74,10 +74,10 @@ public class MSTestPublisher extends Recorder implements Serializable {
 
             if (result) {
                 // Run the JUnit test archiver
-                result = recordTestResult(MSTestTransformer.JUNIT_REPORTS_PATH + "/TEST-*.xml", build, listener);                
+                result = recordTestResult(MSTestTransformer.JUNIT_REPORTS_PATH + "/TEST-*.xml", build, listener);
                 build.getWorkspace().child(MSTestTransformer.JUNIT_REPORTS_PATH).deleteRecursive();
             }
-            
+
         } catch (TransformerException te) {
             throw new AbortException("Could not read the XSL XML file. Please report this issue to the plugin author");
         }
@@ -160,7 +160,8 @@ public class MSTestPublisher extends Recorder implements Serializable {
                     throw new AbortException("No test report files were found. Configuration error?");
                 }
                 if (existingTestResults == null) {
-                    return new TestResult(buildTime, ds);
+                    //  Force keepLongStdio.  TODO: This should be optional.
+                    return new TestResult(buildTime, ds, true);
                 } else {
                     existingTestResults.parse(buildTime, ds);
                     return existingTestResults;
