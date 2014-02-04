@@ -73,11 +73,7 @@
                                 </xsl:if>
 
                                 <xsl:if test="contains($outcome, 'Inconclusive')">
-                                    <skipped message="{$message}">
-                                        <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
-                                        <xsl:value-of select="$stacktrace" />
-                                        <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
-                                    </skipped>
+                                    <skipped message="{$message}"/>
                                 </xsl:if>
 
                             </testcase>
