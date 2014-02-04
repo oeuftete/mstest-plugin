@@ -62,14 +62,21 @@
                                 time="{$duration_hours*3600 + $duration_minutes*60 + $duration_seconds }">
 
                                 <xsl:if test="contains($outcome, 'Failed')">
-                                    <failure>
-                                        MESSAGE:
-                                        <xsl:value-of select="$message" />
-                                        +++++++++++++++++++
-                                        STACK TRACE:
+                                    <failure message="{$message}">
+                                        <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
                                         <xsl:value-of select="$stacktrace" />
+                                        <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
                                     </failure>
                                 </xsl:if>
+
+                                <xsl:if test="contains($outcome, 'Inconclusive')">
+                                    <skipped message="{$message}">
+                                        <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+                                        <xsl:value-of select="$stacktrace" />
+                                        <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+                                    </skipped>
+                                </xsl:if>
+
                             </testcase>
                         </xsl:if>
                     </xsl:for-each>
